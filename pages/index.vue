@@ -141,6 +141,10 @@
             >
             </vue-date-picker>
         </div>
+
+        <v-btn>
+            Submit
+        </v-btn>
     </div>
 </template>
 
