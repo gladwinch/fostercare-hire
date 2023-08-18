@@ -142,7 +142,7 @@
             </vue-date-picker>
         </div>
 
-        <v-btn>
+        <v-btn size="large" variant="outlined">
             Submit
         </v-btn>
     </div>
