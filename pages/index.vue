@@ -3,6 +3,7 @@
         <h1 class="text-h2 text-center">Foster Care Ireland</h1>
         <h2 class="text-4 text-center">REFERENCE REQUEST</h2>
 
+        
         <div>
             <div class="text-5">APPLICANT DETAILS</div>
             <div class="text-6 mt-4">Fabiana Olivia Acha Uzeda has applied for the post of Social Care Worker. You
@@ -19,7 +20,7 @@
         <div>
             <div class="text-5 text-decoration-underline">REFEREES DETAILS</div>
             
-            <div class="form-wrapper mt-4 text-decoration-underline">
+            <div class="form-wrapper mt-4">
                 <v-text-field label="Name of person completing reference" v-model="form.name"></v-text-field>
                 <v-text-field label="Name of Organization/Employer" v-model="form.organization"></v-text-field>
                 <v-text-field label="Your position in the Organization" v-model="form.position"></v-text-field>
@@ -37,15 +38,15 @@
                 <v-textarea
                     filled
                     name="input-7-4"
-                    label="Current employment"
-                    v-model="form.approach_to_working_service_user"
+                    label="Current employment if relevant"
+                    v-model="form.current_employment"
                 ></v-textarea>
             </div>
         </div>
 
         <v-divider></v-divider>
 
-        <div>
+        <!-- <div>
             <div class="text-5 text-decoration-underline">APPLICANT’S CURRENT EMPLOYMENT DETAILS</div>
             
             <div class="form-wrapper mt-4">
@@ -62,7 +63,7 @@
             </div>
         </div>
 
-        <v-divider></v-divider>
+        <v-divider></v-divider> -->
 
         <div>
             <div class="text-5 text-decoration-underline">PLEASE COMMENT ON THE APPLICANTS</div>
@@ -142,17 +143,21 @@
             </vue-date-picker>
         </div>
 
-        <v-btn size="large" variant="outlined">
+        <v-btn size="large" variant="outlined" :loading="loading" @click="submitData">
             Submit
         </v-btn>
     </div>
 </template>
 
 <script setup>
-	definePageMeta({
+    import { setDoc, getDocs, doc } from "firebase/firestore"
+    definePageMeta({
         title: 'Form'
     })
+    const nuxtApp = useNuxtApp()
+    const db = nuxtApp.$db
 
+    const loading = ref(false)
     const form = ref({
 
         // REFEREES DETAILS
@@ -161,15 +166,16 @@
         position: "",
         relationship: "",
         applicant_known: "",
-        current_employment: "",
+
+        // CURRENT EMPLOYMENT
         current_employment: "",
 
         // APPLICANT’S CURRENT EMPLOYMENT DETAILS
-        job_title: "",
-        start_date: "",
-        current_salary: "",
-        sick_off_days: "",
-        duty_details: "",
+        // job_title: "",
+        // start_date: "",
+        // current_salary: "",
+        // sick_off_days: "",
+        // duty_details: "",
 
         // PLEASE COMMENT ON THE APPLICANTS
         reliability_commitment: "",
@@ -201,17 +207,27 @@
         return `${day}/${month}/${year}`;
     }
 
-    //
-    // const undo = () {
-    //   this.$refs.signaturePad.undoSignature();
-    // },
-    // save() {
-    //   const { isEmpty, data } = $refs.signaturePad.saveSignature();
+    const submitData = async () => {
+        loading.value = true
+        await setDoc(doc(db), form._rawValue)
+        // const udata = form._rawValue
+        // const result = await firestore.collection('applications').set(udata)
+        // console.log('result: ', result)
 
-    //   alert("Open DevTools see the save data.");
-    //   console.log(isEmpty);
-    //   console.log(data);
-    // }
+        // const { data, loading } = await fetch('/api/hire', {
+        //     method: 'POST',
+        //     body: udata
+        // })
+        // await save(udata)
+        // const data = await appModel.get()
+        // console.log('result: ', data)
+        const savedApps = await getDocs(db)
+
+        savedApps.forEach(doc => {
+            console.log(doc.id, " => ", doc.data());
+        })
+        loading.value = false
+    }
 </script>
 
 <style scoped>

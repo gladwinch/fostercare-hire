@@ -17,12 +17,21 @@ export default defineNuxtConfig({
       }
   },
   runtimeConfig: {
-      // Config within public will be also exposed to the client
-      public: {}
+    public: {
+      FIREBASE_API_KEY: process.env.FIREBASE_API_KEY,
+      FIREBASE_AUTH_DOMAIN: process.env.FIREBASE_AUTH_DOMAIN,
+      FIREBASE_PROJECTID: process.env.FIREBASE_PROJECTID,
+      FIREBASE_STORAGE_BUCKET: process.env.FIREBASE_STORAGE_BUCKET,
+      FIREBASE_MESSAGEING_SENDERID: process.env.FIREBASE_STORAGE_BUCKET,
+      FIREBASE_APPID: process.env.FIREBASE_APPID
+    },
   },
   pages: true,
   css: [],
-  plugins: [],
+  plugins: [
+    { src: '~/plugins/firebase', mode: 'client' },
+    { src: '~/plugins/vuedatepicker', mode: 'client' }
+  ],
   components: [
     '~/components'
   ],
