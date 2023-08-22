@@ -18,23 +18,23 @@
             <div>
                 <div class="header font-weight-bold">APPLICANT DETAILS</div>
                 <div class="box">
-                    <div>
+                    <div class="no-split">
                         <div class="font-weight-bold">Name of person completing reference:</div>
                         <div>{{ application.name }}</div>
                     </div>
-                    <div>
+                    <div class="no-split">
                         <div class="font-weight-bold">Name of Organization/Employer:</div>
                         <div>{{ application.organization }}</div>
                     </div>
-                    <div>
+                    <div class="no-split">
                         <div class="font-weight-bold">Your position in the Organization:</div>
                         <div>{{ application.position }}</div>
                     </div>
-                    <div>
+                    <div class="no-split">
                         <div class="font-weight-bold">Your relationship to the applicant:</div>
                         <div>{{ application.relationship }}</div>
                     </div>
-                    <div>
+                    <div class="no-split">
                         <div class="font-weight-bold">How long have you know the applicant?:</div>
                         <div>{{ application.applicant_known }}</div>
                     </div>
@@ -42,7 +42,7 @@
             </div>
 
             <!-- EMPLOYMENT -->
-            <div>
+            <div  class="no-split">
                 <div class="header font-weight-bold">CURRENT EMPLOYMENT IF RELEVANT</div>
                 <div class="box">
                     <div>{{ application.current_employment }}</div>
@@ -52,47 +52,47 @@
             <div>
                 <div class="header font-weight-bold">PLEASE COMMENT ON THE APPLICANTS</div>
                 <div class="box">
-                    <div>
+                    <div class="no-split">
                         <div class="font-weight-bold">Reliability and commitment:</div>
                         <div>{{ application.reliability_commitment }}</div>
                     </div>
-                    <div>
+                    <div class="no-split">
                         <div class="font-weight-bold">Time keeping and Punctuality:</div>
                         <div>{{ application.approach_to_working_service_user }}</div>
                     </div>
-                    <div>
+                    <div class="no-split">
                         <div class="font-weight-bold">Approach to working with service users:</div>
                         <div>{{ application.approach_to_working_service_user }}</div>
                     </div>
-                    <div>
+                    <div class="no-split">
                         <div class="font-weight-bold">Approach to working with service users friends, family or other representatives:</div>
                         <div>{{ application.approach_to_working_service_user_friends_family }}</div>
                     </div>
-                    <div>
+                    <div class="no-split">
                         <div class="font-weight-bold">Approach to working with other professionals:</div>
                         <div>{{ application.approach_to_working_service_professionals }}</div>
                     </div>
-                    <div>
+                    <div class="no-split">
                         <div class="font-weight-bold">Approach to working as part of a team:</div>
                         <div>{{ application.approach_to_working_part_of_team }}</div>
                     </div>
-                    <div>
+                    <div class="no-split">
                         <div class="font-weight-bold">The applicant's ability to use professional supervision:</div>
                         <div>{{ application.ability_to_use_professional_supervision }}</div>
                     </div>
-                    <div>
+                    <div class="no-split">
                         <div class="font-weight-bold">The applicants particular skills and abilities:</div>
                         <div>{{ application.particular_skills_abilities }}</div>
                     </div>
-                    <div>
+                    <div class="no-split">
                         <div class="font-weight-bold">The applicants ability to undertake and utilise training in their practice:</div>
                         <div>{{ application.ability_to_undertake_and_utilise_training }}</div>
                     </div>
-                    <div>
+                    <div class="no-split">
                         <div class="font-weight-bold">Has the applicant been subject to any disciplinary measures whilst in your employment?:</div>
                         <div>{{ application.subject_to_any_disciplinary_measures }}</div>
                     </div>
-                    <div>
+                    <div class="no-split">
                         <div class="font-weight-bold">Any other information you consider to be appropriate in our consideration of this applicants suitability for this post:</div>
                         <div>{{ application.other_information }}</div>
                     </div>
@@ -100,11 +100,11 @@
             </div>
 
             <div class="box" style="border-top: solid 1px black;">
-                <div>
+                <div class="no-split">
                     <div class="font-weight-bold">Print Name: </div>
                     <div>{{ application.print_name }}</div>
                 </div>
-                <div>
+                <div class="no-split">
                     <div class="font-weight-bold">Date:</div>
                     <div>{{ computedDate }}</div>
                 </div>
@@ -155,6 +155,7 @@
 
     .header {
         background-color: #B3B3B3;
+        background: #B3B3B3;
         padding: 2px 4px;
         color: black;
         border: solid 1px black;
@@ -173,5 +174,9 @@
         display: flex;
         flex-direction: column;
         gap: 1rem;
+    }
+
+    .no-split {
+        page-break-inside: avoid;
     }
 </style>
