@@ -34,7 +34,7 @@
         <div>
             <div class="text-5 text-decoration-underline">CURRENT EMPLOYMENT IF RELEVANT</div>
             
-            <div class="form-wrapper mt-4 text-decoration-underline">
+            <div class="form-wrapper mt-4">
                 <v-textarea
                     filled
                     name="input-7-4"
@@ -150,12 +150,17 @@
 </template>
 
 <script setup>
-    import { setDoc, getDocs, doc } from "firebase/firestore"
+    import { v4 as uuidv4 } from 'uuid'
+    import { collection } from 'firebase/firestore'
+    import { setDoc, doc } from "firebase/firestore"
+
     definePageMeta({
         title: 'Form'
     })
+
+    const url = 'http://127.0.0.1:5001/fostercare-4aac9/us-central1/downloadPdf?applicationId='
     const nuxtApp = useNuxtApp()
-    const db = nuxtApp.$db
+    const db = nuxtApp.$firestore
 
     const loading = ref(false)
     const form = ref({
@@ -195,10 +200,6 @@
         date: null
     })
 
-    const options = ref({
-      penColor: "#c0f",
-    })
-
     const format = (date) => {
         const day = date.getDate();
         const month = date.getMonth() + 1;
@@ -209,24 +210,39 @@
 
     const submitData = async () => {
         loading.value = true
-        await setDoc(doc(db), form._rawValue)
-        // const udata = form._rawValue
-        // const result = await firestore.collection('applications').set(udata)
-        // console.log('result: ', result)
 
-        // const { data, loading } = await fetch('/api/hire', {
-        //     method: 'POST',
-        //     body: udata
-        // })
-        // await save(udata)
-        // const data = await appModel.get()
-        // console.log('result: ', data)
-        const savedApps = await getDocs(db)
+        const uniqueId = uuidv4()
+        await setDoc(doc(db, "applications", uniqueId), form._rawValue)
+        await useFetch(url+uniqueId)
+        reset()
 
-        savedApps.forEach(doc => {
-            console.log(doc.id, " => ", doc.data());
-        })
         loading.value = false
+    }
+
+    function reset() {
+        const doc = {
+            name: "",
+            organization: "",
+            position: "",
+            relationship: "",
+            applicant_known: "",
+            current_employment: "",
+            reliability_commitment: "",
+            punctuality: "",
+            approach_to_working_service_user_friends_family: "",
+            approach_to_working_service_professionals: "",
+            approach_to_working_part_of_team: "",
+            ability_to_use_professional_supervision: "",
+            particular_skills_abilities: "",
+            ability_to_undertake_and_utilise_training: "",
+            subject_to_any_disciplinary_measures: "",
+            reemploy_applicant: "",
+            other_information: "",
+            print_name: "",
+            date: null
+        }
+
+        form.value = doc
     }
 </script>
 
