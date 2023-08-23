@@ -150,14 +150,13 @@
 </template>
 
 <script setup>
-    import { v4 as uuidv4 } from 'uuid'
-    import { setDoc, doc } from "firebase/firestore"
+    import { addDoc, collection } from "firebase/firestore"
 
     definePageMeta({
         title: 'Form'
     })
 
-    const url = 'http://127.0.0.1:5001/fostercare-4aac9/us-central1/downloadPdf?applicationId='
+    const url = 'https://page-downloader.onrender.com/request/'
     const nuxtApp = useNuxtApp()
     const db = nuxtApp.$firestore
 
@@ -209,10 +208,8 @@
 
     const submitData = async () => {
         loading.value = true
-
-        const uniqueId = uuidv4()
-        await setDoc(doc(db, "applications", uniqueId), form._rawValue)
-        await useFetch(url+uniqueId)
+        const newDocRef = await addDoc(collection(db, "applications"), form._rawValue)
+        await useFetch(url+newDocRef.id)
         reset()
 
         loading.value = false

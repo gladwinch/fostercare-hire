@@ -123,16 +123,13 @@
 
     onMounted(async () => {
         loading.value = true
+
         const route = useRoute()
-        console.log('application id: ', route.params.id)
         const docRef = doc(db, 'applications', route.params.id)
         const docSnap = await getDoc(docRef)
-        // console.log('sss: ', docSnap)
-        console.log('exists: ', docSnap.exists())
+        
         if(!docSnap.exists()) return loading.value = false
         const document = docSnap.data()
-
-        console.log('document: ', document)
 
         application.value = document
         loading.value = false
