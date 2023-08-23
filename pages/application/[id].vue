@@ -116,7 +116,7 @@
 <script setup>
     import { getDoc, doc } from "firebase/firestore"
     const nuxtApp = useNuxtApp()
-    const db = nuxtApp.$db
+    const db = nuxtApp.$firestore
     
     const application = ref(null)
     const loading = ref(true)
@@ -124,18 +124,19 @@
     onMounted(async () => {
         loading.value = true
         const route = useRoute()
-        const docRef = doc(db, route.params.id)
+        const docRef = doc(db, 'applications', route.params.id)
         const docSnap = await getDoc(docRef)
 
         if(!docSnap.exists()) return loading.value = false
         const document = docSnap.data()
-        console.log('document: ', document)
+
         application.value = document
         loading.value = false
     })
 
     const computedDate = computed(() => {
         if(!application.value.date) return ''
+
         const seconds = application.value.date.seconds
         const date = new Date(seconds * 1000)
         return `${date.toDateString().split(' ').slice(0, 4).join(' ')}`

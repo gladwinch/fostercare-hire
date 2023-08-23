@@ -151,7 +151,6 @@
 
 <script setup>
     import { v4 as uuidv4 } from 'uuid'
-    import { collection } from 'firebase/firestore'
     import { setDoc, doc } from "firebase/firestore"
 
     definePageMeta({
