@@ -165,14 +165,14 @@
     const form = ref({
 
         // REFEREES DETAILS
-        name: "",
-        organization: "",
-        position: "",
-        relationship: "",
-        applicant_known: "",
+        name: "test2",
+        organization: "test",
+        position: "test",
+        relationship: "test",
+        applicant_known: "test",
 
         // CURRENT EMPLOYMENT
-        current_employment: "",
+        current_employment: "test",
 
         // APPLICANT’S CURRENT EMPLOYMENT DETAILS
         // job_title: "",
@@ -182,20 +182,20 @@
         // duty_details: "",
 
         // PLEASE COMMENT ON THE APPLICANTS
-        reliability_commitment: "",
-        punctuality: "",
-        approach_to_working_service_user_friends_family: "",
-        approach_to_working_service_professionals: "",
-        approach_to_working_part_of_team: "",
-        ability_to_use_professional_supervision: "",
-        particular_skills_abilities: "",
-        ability_to_undertake_and_utilise_training: "",
-        subject_to_any_disciplinary_measures: "",
-        reemploy_applicant: "",
-        other_information: "",
+        reliability_commitment: "test",
+        punctuality: "test",
+        approach_to_working_service_user_friends_family: "tset",
+        approach_to_working_service_professionals: "tset",
+        approach_to_working_part_of_team: "test",
+        ability_to_use_professional_supervision: "test",
+        particular_skills_abilities: "tset",
+        ability_to_undertake_and_utilise_training: "tst",
+        subject_to_any_disciplinary_measures: "test",
+        reemploy_applicant: "tset",
+        other_information: "tse",
 
         // FINAL
-        print_name: "",
+        print_name: "test",
         date: null
     })
 
@@ -209,8 +209,6 @@
 
     const submitData = async () => {
         loading.value = true
-        const newDocRef = await addDoc(collection(db, "applications"), form._rawValue)
-        await useFetch(url+newDocRef.id)
         await useFetch(serverUrl, {
             method: 'post',
             body: form._rawValue,
@@ -220,9 +218,12 @@
                 'Content-Type': 'application/json'
             }
         })
-
-        reset()
+        let data = { ...form._rawValue }
         loading.value = false
+        reset()
+
+        const newDocRef = await addDoc(collection(db, "applications"), data)
+        await useFetch(url+newDocRef.id)
     }
 
     function reset() {
