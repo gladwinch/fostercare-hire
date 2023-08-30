@@ -165,14 +165,14 @@
     const form = ref({
 
         // REFEREES DETAILS
-        name: "test2",
-        organization: "test",
-        position: "test",
-        relationship: "test",
-        applicant_known: "test",
+        name: "",
+        organization: "",
+        position: "",
+        relationship: "",
+        applicant_known: "",
 
         // CURRENT EMPLOYMENT
-        current_employment: "test",
+        current_employment: "",
 
         // APPLICANT’S CURRENT EMPLOYMENT DETAILS
         // job_title: "",
@@ -182,20 +182,20 @@
         // duty_details: "",
 
         // PLEASE COMMENT ON THE APPLICANTS
-        reliability_commitment: "test",
-        punctuality: "test",
-        approach_to_working_service_user_friends_family: "tset",
-        approach_to_working_service_professionals: "tset",
-        approach_to_working_part_of_team: "test",
-        ability_to_use_professional_supervision: "test",
-        particular_skills_abilities: "tset",
-        ability_to_undertake_and_utilise_training: "tst",
-        subject_to_any_disciplinary_measures: "test",
-        reemploy_applicant: "tset",
-        other_information: "tse",
+        reliability_commitment: "",
+        punctuality: "",
+        approach_to_working_service_user_friends_family: "",
+        approach_to_working_service_professionals: "",
+        approach_to_working_part_of_team: "",
+        ability_to_use_professional_supervision: "",
+        particular_skills_abilities: "",
+        ability_to_undertake_and_utilise_training: "",
+        subject_to_any_disciplinary_measures: "",
+        reemploy_applicant: "",
+        other_information: "",
 
         // FINAL
-        print_name: "test",
+        print_name: "",
         date: null
     })
 
