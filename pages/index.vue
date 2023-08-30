@@ -157,6 +157,7 @@
     })
 
     const url = 'https://page-downloader.onrender.com/request/'
+    const serverUrl = 'https://fre-test.123workforce.com/api/reference-request'
     const nuxtApp = useNuxtApp()
     const db = nuxtApp.$firestore
 
@@ -210,8 +211,17 @@
         loading.value = true
         const newDocRef = await addDoc(collection(db, "applications"), form._rawValue)
         await useFetch(url+newDocRef.id)
-        reset()
+        await useFetch(serverUrl, {
+            method: 'post',
+            body: form._rawValue,
+            headers: {
+                'Signature': '83a8b4be-04e4-11ee-be56-0242ac120002',
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
 
+        reset()
         loading.value = false
     }
 
