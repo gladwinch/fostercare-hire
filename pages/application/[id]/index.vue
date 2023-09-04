@@ -115,12 +115,12 @@
 </template>
 
 <script setup>
-    const refData = useState('ref-data')
+    definePageMeta({
+		title: 'Application',
+		middleware: ['auth'],
+	})
 
-    import { getDoc, doc } from "firebase/firestore"
-    const nuxtApp = useNuxtApp()
-    const db = nuxtApp.$firestore
-    
+    const refData = useState('ref-data')
     const application = ref(null)
     
     onMounted(() => {

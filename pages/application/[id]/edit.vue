@@ -5,13 +5,13 @@
 
         
         <div>
-            <div class="text-5">APPLICANT DETAILS</div>
-            <div class="text-6 mt-4">Fabiana Olivia Acha Uzeda has applied for the post of Social Care Worker. You
+            <!-- <div class="text-5">APPLICANT DETAILS</div> -->
+            <!-- <div class="text-6 mt-4">Fabiana Olivia Acha Uzeda has applied for the post of Social Care Worker. You
                 have been nominated to provide a reference for this applicant. Enclosed is a copy of
                 the job description and person specification. From your knowledge of the applicant,
                 could you complete this reference form and return , Thank-you for your
                 cooperation and we look forward to receiving the completed form.
-            </div>
+            </div> -->
             <!-- <div class="text-5 mt-4">AISLING HOMES</div> -->
         </div>
 
@@ -150,6 +150,11 @@
 </template>
 
 <script setup>
+    definePageMeta({
+		title: 'Edit',
+		middleware: ['auth'],
+	})
+
     const refData = useState('ref-data')
     definePageMeta({
         title: 'Form edit'

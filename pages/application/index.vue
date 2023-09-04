@@ -33,6 +33,11 @@
 <script setup>
     import { debounce } from 'lodash'
 
+    definePageMeta({
+		title: 'Dashboard',
+		middleware: ['auth'],
+	})
+
     const search = ref('')
     const loading = ref(false)
     const references = ref([])

@@ -152,7 +152,6 @@
 <script setup>
     import { addDoc, collection } from "firebase/firestore"
 
-    const rc = useRuntimeConfig()
     definePageMeta({
         title: 'Form'
     })

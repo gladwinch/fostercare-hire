@@ -29,6 +29,7 @@ export default defineNuxtConfig({
       SECRET_TOKEN: process.env.SECRET_TOKEN,
     }
   },
+  ssr: false,
   pages: true,
   css: [],
   plugins: [
