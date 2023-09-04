@@ -17,6 +17,7 @@
   "dependencies": {
     "@vuepic/vue-datepicker": "^6.0.0",
     "firebase": "^10.2.0",
+    "lodash": "^4.17.21",
     "uuid": "^9.0.0"
   }
 }

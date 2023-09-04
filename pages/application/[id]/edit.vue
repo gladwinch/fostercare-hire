@@ -1,7 +1,7 @@
 <template>
     <div class="container">
-        <h1 class="text-h2 text-center">Foster Care Ireland</h1>
-        <h2 class="text-4 text-center">REFERENCE REQUEST</h2>
+        <v-btn color="black" @click="navigateTo('/application')">Back</v-btn>
+        <h2 class="text-4 text-center">REFERENCE REQUEST EDIT</h2>
 
         
         <div>
@@ -143,45 +143,27 @@
             </vue-date-picker>
         </div>
 
-        <v-btn size="large" variant="outlined" :loading="loading" @click="submitData">
-            Submit
+        <v-btn size="large" :loading="loading" color="green" @click="saveData">
+            Update
         </v-btn>
     </div>
 </template>
 
 <script setup>
-    import { addDoc, collection } from "firebase/firestore"
-
-    const rc = useRuntimeConfig()
+    const refData = useState('ref-data')
     definePageMeta({
-        title: 'Form'
+        title: 'Form edit'
     })
-
-    const url = 'https://page-downloader.onrender.com/request/'
-    const nuxtApp = useNuxtApp()
-    const db = nuxtApp.$firestore
 
     const loading = ref(false)
     const form = ref({
-
-        // REFEREES DETAILS
+        id: '',
         name: "",
         organization: "",
         position: "",
         relationship: "",
         applicant_known: "",
-
-        // CURRENT EMPLOYMENT
         current_employment: "",
-
-        // APPLICANT’S CURRENT EMPLOYMENT DETAILS
-        // job_title: "",
-        // start_date: "",
-        // current_salary: "",
-        // sick_off_days: "",
-        // duty_details: "",
-
-        // PLEASE COMMENT ON THE APPLICANTS
         reliability_commitment: "",
         punctuality: "",
         approach_to_working_service_user_friends_family: "",
@@ -193,8 +175,6 @@
         subject_to_any_disciplinary_measures: "",
         reemploy_applicant: "",
         other_information: "",
-
-        // FINAL
         print_name: "",
         date: null
     })
@@ -207,46 +187,24 @@
         return `${day}/${month}/${year}`;
     }
 
-    const submitData = async () => {
+    const saveData = async () => {
         loading.value = true
-        await fetch('/api/general-request', {
-            method: 'post',
+        await fetch(`/api/reference-request/${form.value.id}/update`, {
+            method: 'put',
             body: form._rawValue
         })
 
-        let data = { ...form._rawValue }
         loading.value = false
-        reset()
 
-        await addDoc(collection(db, "applications"), data)
-        // await useFetch(url+newDocRef.id)
+        // :TODO back to application
     }
 
-    function reset() {
-        const doc = {
-            name: "",
-            organization: "",
-            position: "",
-            relationship: "",
-            applicant_known: "",
-            current_employment: "",
-            reliability_commitment: "",
-            punctuality: "",
-            approach_to_working_service_user_friends_family: "",
-            approach_to_working_service_professionals: "",
-            approach_to_working_part_of_team: "",
-            ability_to_use_professional_supervision: "",
-            particular_skills_abilities: "",
-            ability_to_undertake_and_utilise_training: "",
-            subject_to_any_disciplinary_measures: "",
-            reemploy_applicant: "",
-            other_information: "",
-            print_name: "",
-            date: null
-        }
+    onMounted(() => {
+        const data = toRaw(refData.value)
+        if(!data) navigateTo('/application')
 
-        form.value = doc
-    }
+        form.value = data
+    })
 </script>
 
 <style scoped>

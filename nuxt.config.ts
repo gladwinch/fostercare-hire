@@ -23,8 +23,11 @@ export default defineNuxtConfig({
       FIREBASE_PROJECTID: process.env.FIREBASE_PROJECTID,
       FIREBASE_STORAGE_BUCKET: process.env.FIREBASE_STORAGE_BUCKET,
       FIREBASE_MESSAGEING_SENDERID: process.env.FIREBASE_STORAGE_BUCKET,
-      FIREBASE_APPID: process.env.FIREBASE_APPID
-    },
+      FIREBASE_APPID: process.env.FIREBASE_APPID,
+      API_BASE_URL: process.env.API_BASE_URL,
+      API_SIGNATURE: process.env.API_SIGNATURE,
+      SECRET_TOKEN: process.env.SECRET_TOKEN,
+    }
   },
   pages: true,
   css: [],

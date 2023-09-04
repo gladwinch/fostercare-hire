@@ -1,5 +1,6 @@
 <template>
     <div class="container">
+        <v-btn color="black" class="mb-6" @click="navigateTo('/application')">Back</v-btn>
         <div class="header bold-border">Foster Care Ireland</div>
         <div class="text-center">REFERENCE REQUEST</div>
 
@@ -114,33 +115,40 @@
 </template>
 
 <script setup>
+    const refData = useState('ref-data')
+
     import { getDoc, doc } from "firebase/firestore"
     const nuxtApp = useNuxtApp()
     const db = nuxtApp.$firestore
     
     const application = ref(null)
-    const loading = ref(true)
+    
+    onMounted(() => {
+        const data = toRaw(refData.value)
+        if(!data) navigateTo('/application')
 
-    onMounted(async () => {
-        loading.value = true
-
-        const route = useRoute()
-        const docRef = doc(db, 'applications', route.params.id)
-        const docSnap = await getDoc(docRef)
-        
-        if(!docSnap.exists()) return loading.value = false
-        const document = docSnap.data()
-
-        application.value = document
-        loading.value = false
+        application.value = data
     })
 
-    const computedDate = computed(() => {
-        if(!application.value.date) return ''
+    function convertDateFormat(dateString) {
+        // Parse the input date string to a Date object
+        const date = new Date(dateString);
 
-        const seconds = application.value.date.seconds
-        const date = new Date(seconds * 1000)
-        return `${date.toDateString().split(' ').slice(0, 4).join(' ')}`
+        // Extract year, month, and day from the Date object
+        const year = date.getUTCFullYear();
+        const month = date.getUTCMonth() + 1; // Months are zero-based in JS
+        const day = date.getUTCDate();
+
+        // Format the date as year/month.day
+        const formattedDate = `${year}/${month}/${day}`;
+
+        return formattedDate;
+    }
+
+    const computedDate = computed(() => {
+        if(!application.value) return 'no date'
+
+        return convertDateFormat(application.value.date)
     })
 </script>
 
