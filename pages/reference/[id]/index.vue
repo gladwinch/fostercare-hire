@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <v-btn color="black" class="mb-6" @click="navigateTo('/application')">Back</v-btn>
+        <v-btn color="black" class="mb-6" @click="navigateTo('/reference')">Back</v-btn>
         <div class="header bold-border">Foster Care Ireland</div>
         <div class="text-center">REFERENCE REQUEST</div>
 
@@ -125,7 +125,7 @@
     
     onMounted(() => {
         const data = toRaw(refData.value)
-        if(!data) navigateTo('/application')
+        if(!data) navigateTo('/reference')
 
         application.value = data
     })

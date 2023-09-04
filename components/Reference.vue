@@ -56,12 +56,12 @@
 
     const editRef = () => {
         refData.value = props.data
-        navigateTo(`/application/${props.data.id}/edit`)
+        navigateTo(`/reference/${props.data.id}/edit`)
     }
 
     const viewRef = () => {
         refData.value = props.data
-        navigateTo(`/application/${props.data.id}`)
+        navigateTo(`/reference/${props.data.id}`)
     }
 
 </script>

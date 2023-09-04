@@ -62,7 +62,7 @@
             }
 
             localStorage.setItem("auth-token", runtimeConfig.public.SECRET_TOKEN)
-            navigateTo('/application')
+            navigateTo('/reference')
         })
         .catch(e => {
             console.log(e)

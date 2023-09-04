@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <v-btn color="black" @click="navigateTo('/application')">Back</v-btn>
+        <v-btn color="black" @click="navigateTo('/reference')">Back</v-btn>
         <h2 class="text-4 text-center">REFERENCE REQUEST EDIT</h2>
 
         
@@ -206,7 +206,7 @@
 
     onMounted(() => {
         const data = toRaw(refData.value)
-        if(!data) navigateTo('/application')
+        if(!data) navigateTo('/reference')
 
         form.value = data
     })
