@@ -208,7 +208,7 @@
 
     const submitData = async () => {
         loading.value = true
-        await fetch('/api/general-request', {
+        await fetch('/api/reference-request', {
             method: 'post',
             body: form._rawValue
         })
