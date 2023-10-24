@@ -152,7 +152,7 @@
 <script setup>
     definePageMeta({
 		title: 'Edit',
-		middleware: ['auth'],
+		// middleware: ['auth'],
 	})
 
     const refData = useState('ref-data')

@@ -35,7 +35,7 @@
 
     definePageMeta({
 		title: 'Dashboard',
-		middleware: ['auth'],
+		// middleware: ['auth'],
 	})
 
     const search = ref('')

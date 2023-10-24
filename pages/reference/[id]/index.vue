@@ -117,7 +117,7 @@
 <script setup>
     definePageMeta({
 		title: 'Application',
-		middleware: ['auth'],
+		// middleware: ['auth'],
 	})
 
     const refData = useState('ref-data')
