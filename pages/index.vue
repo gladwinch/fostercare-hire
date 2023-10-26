@@ -6,7 +6,7 @@
         
         <div>
             <div class="text-5">APPLICANT DETAILS</div>
-            <div class="text-6 mt-4">Fabiana Olivia Acha Uzeda has applied for the post of Social Care Worker. You
+            <div class="text-6 mt-4">{{ applicantName }} has applied for the post of Social Care Worker. You
                 have been nominated to provide a reference for this applicant. Enclosed is a copy of
                 the job description and person specification. From your knowledge of the applicant,
                 could you complete this reference form and return , Thank-you for your
@@ -147,9 +147,21 @@
             Submit
         </v-btn>
     </div>
+
+    <v-dialog
+      v-model="showDisbleForm"
+      width="auto"
+    >
+      <v-card color="black" class="pb-1">
+        <v-card-text>
+            Invalid reference application
+        </v-card-text>
+      </v-card>
+    </v-dialog>
 </template>
 
 <script setup>
+    const route = useRoute()
     import { addDoc, collection } from "firebase/firestore"
 
     definePageMeta({
@@ -159,6 +171,8 @@
     const url = 'https://page-downloader.onrender.com/request/'
     const nuxtApp = useNuxtApp()
     const db = nuxtApp.$firestore
+    const showDisbleForm = ref(false)
+    const applicantName = ref("")
 
     const loading = ref(false)
     const form = ref({
@@ -195,7 +209,11 @@
 
         // FINAL
         print_name: "",
-        date: null
+        date: null,
+
+        // FORM DATA
+        id: "",
+        ref_id: ""
     })
 
     const format = (date) => {
@@ -207,17 +225,24 @@
     }
 
     const submitData = async () => {
+        showDisbleForm.value = false
+        const { name, id, ref_id } = route.query
+        if(!name || !id || !ref_id) {
+            showDisbleForm.value = true
+            return
+        }
+
         loading.value = true
         await fetch('/api/reference-request', {
             method: 'post',
             body: form._rawValue
         })
 
-        let data = { ...form._rawValue }
+        // let data = { ...form._rawValue }
         loading.value = false
         reset()
 
-        await addDoc(collection(db, "applications"), data)
+        // await addDoc(collection(db, "applications"), data)
         // await useFetch(url+newDocRef.id)
     }
 
@@ -241,11 +266,26 @@
             reemploy_applicant: "",
             other_information: "",
             print_name: "",
-            date: null
+            date: null,
+            id: "",
+            ref_id: ""
         }
 
         form.value = doc
     }
+
+    onMounted(() => {
+        const { name, id, ref_id } = route.query
+
+        if(!name || !id || !ref_id) {
+            showDisbleForm.value = true
+            return
+        }
+
+        applicantName.value = name
+        form.value.id = id
+        form.value.ref_id = ref_id
+    })
 </script>
 
 <style scoped>
