@@ -327,8 +327,7 @@
 
         if(
             data._rawValue && 
-            data._rawValue.data && 
-            data._rawValue.data.name
+            data._rawValue.data
         ) {
             let prevApp = JSON.parse(JSON.stringify(data._rawValue.data))
             for (let key in prevApp) {
