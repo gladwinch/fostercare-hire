@@ -151,13 +151,48 @@
     <v-dialog
       v-model="showDisbleForm"
       width="auto"
+      persistent
     >
       <v-card color="black" class="pb-1">
         <v-card-text>
+            <v-icon
+            style="transform: translateY(-2px);"
+            icon="mdi-cancel"
+            class="mr-2"
+            ></v-icon>
             Invalid reference application
         </v-card-text>
       </v-card>
     </v-dialog>
+
+    <v-dialog
+        v-model="loadingForm"
+        persistent
+        width="auto"
+    >
+      <v-card
+        color="white"
+      >
+        <v-card-text>
+          Please stand by while we load your application
+          <v-progress-linear
+            indeterminate
+            color="black"
+            rounded
+            class="mt-2 mb-2"
+          ></v-progress-linear>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
+
+    <v-snackbar
+        v-model="showUpdateSnackbar"
+        :timeout="2000"
+        color="success"
+        elevation="24"
+    >
+        Reference application updated!
+    </v-snackbar>
 </template>
 
 <script setup>
@@ -173,6 +208,9 @@
     const db = nuxtApp.$firestore
     const showDisbleForm = ref(false)
     const applicantName = ref("")
+    const loadingForm = ref(true)
+    const allowRealTime = ref(false)
+    const showUpdateSnackbar = ref(false)
 
     const loading = ref(false)
     const form = ref({
@@ -197,6 +235,7 @@
         // PLEASE COMMENT ON THE APPLICANTS
         reliability_commitment: "",
         punctuality: "",
+        approach_to_working_service_user: "",
         approach_to_working_service_user_friends_family: "",
         approach_to_working_service_professionals: "",
         approach_to_working_part_of_team: "",
@@ -233,12 +272,12 @@
         }
 
         loading.value = true
-        await fetch('/api/reference-request', {
-            method: 'post',
+        console.log(form._rawValue)
+        await fetch(`/api/reference-request/${ref_id}/update`, {
+            method: 'put',
             body: form._rawValue
         })
 
-        // let data = { ...form._rawValue }
         loading.value = false
         reset()
 
@@ -256,6 +295,7 @@
             current_employment: "",
             reliability_commitment: "",
             punctuality: "",
+            approach_to_working_service_user: "",
             approach_to_working_service_user_friends_family: "",
             approach_to_working_service_professionals: "",
             approach_to_working_part_of_team: "",
@@ -274,18 +314,76 @@
         form.value = doc
     }
 
-    onMounted(() => {
+    onMounted(async () => {
         const { name, id, ref_id } = route.query
 
         if(!name || !id || !ref_id) {
             showDisbleForm.value = true
+            loadingForm.value = false
             return
+        }
+
+        const { data } = await fetch(`/api/reference-request/${ref_id}`)
+
+        if(
+            data._rawValue && 
+            data._rawValue.data && 
+            data._rawValue.data.name
+        ) {
+            let prevApp = JSON.parse(JSON.stringify(data._rawValue.data))
+            for (let key in prevApp) {
+                if (prevApp[key] !== null) {
+                    form.value[key] = prevApp[key];
+                }
+            }
+
+            setTimeout(() => {
+                allowRealTime.value = true
+            }, 1000);
         }
 
         applicantName.value = name
         form.value.id = id
         form.value.ref_id = ref_id
+        loadingForm.value = false
     })
+
+    function debounce(func, wait) {
+        let timeout
+
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args)
+            }
+
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait)
+        }
+    }
+
+    const updateForm = async () => {
+        const { ref_id } = route.query
+        let formData = toRaw(form)
+        formData = formData._rawValue
+
+        loading.value = true
+        await fetch(`/api/reference-request/${ref_id}/update`, {
+            method: 'put',
+            body: formData
+        })
+        loading.value = false
+
+        showUpdateSnackbar.value = true
+    }
+
+    const fetchDebounce = debounce(updateForm, 2000)
+
+    watch(form, () => {
+        if(allowRealTime.value) {
+            fetchDebounce()
+        }
+    }, { deep: true, immediate: false })
 </script>
 
 <style scoped>
@@ -300,6 +398,4 @@
         flex-direction: column;
         gap: 1rem
     }
-
-
 </style>
